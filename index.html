@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoàn thiện Hồ sơ Nhân sự 2026 | 30Shine Salon</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+:root {
+  --navy: #1B3A6B;
+  --navy-light: #2a4f8a;
+  --navy-dark: #122a50;
+  --red: #8B1538;
+  --red-light: #a32a4d;
+  --bg: #f5f7fb;
+  --white: #ffffff;
+  --gray-100: #f0f2f7;
+  --gray-300: #d0d5de;
+  --gray-500: #7a8496;
+  --gray-600: #5a6578;
+  --gray-800: #2d3340;
+  --green: #10b981;
+  --shadow-sm: 0 1px 3px rgba(27,58,107,0.08);
+  --shadow-md: 0 10px 30px rgba(27,58,107,0.1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg); color: var(--gray-800);
+  min-height: 100vh; padding: 20px 16px 60px; line-height: 1.55;
+}
+.wrap { max-width: 720px; margin: 0 auto; }
+
+/* HEADER */
+.logo { font-size: 26px; font-weight: 800; letter-spacing: 2px; color: var(--navy); text-align: center; margin-top: 8px; }
+.logo span { color: var(--navy-light); }
+.tagline { font-size: 12px; color: var(--gray-600); text-align: center; margin-bottom: 24px; letter-spacing: 1px; }
+
+/* CARD */
+.card { background: var(--white); border-radius: 14px; padding: 28px 24px; box-shadow: var(--shadow-sm), var(--shadow-md); margin-bottom: 20px; }
+h1 { font-size: 22px; color: var(--navy); margin-bottom: 12px; font-weight: 700; line-height: 1.35; }
+h2 { font-size: 17px; color: var(--navy); margin-bottom: 14px; font-weight: 700; }
+.intro-text { font-size: 14.5px; color: var(--gray-600); margin-bottom: 10px; }
+.intro-text strong { color: var(--gray-800); }
+.intro-bullets { list-style: none; margin: 14px 0; }
+.intro-bullets li { font-size: 14px; color: var(--gray-600); padding: 4px 0 4px 22px; position: relative; }
+.intro-bullets li::before { content: "🧱"; position: absolute; left: 0; font-weight: 700; }
+.time-est { display: inline-block; background: var(--gray-100); padding: 6px 12px; border-radius: 6px; font-size: 13px; color: var(--gray-600); margin-top: 8px; }
+
+/* ROLE SELECTOR */
+.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+@media (max-width: 520px) { .role-grid { grid-template-columns: 1fr; } }
+.role-card {
+  background: var(--white); border: 2px solid var(--gray-300); border-radius: 12px;
+  padding: 22px 18px; cursor: pointer; text-align: center; transition: all 0.2s;
+}
+.role-card:hover { border-color: var(--navy); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.role-card.stylist:hover { border-color: var(--navy); }
+.role-card.skinner:hover { border-color: var(--red); }
+.role-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+.role-card.stylist h3 { color: var(--navy); }
+.role-card.skinner h3 { color: var(--red); }
+.role-card p { font-size: 13px; color: var(--gray-600); }
+.role-card .arrow { margin-top: 10px; font-size: 13px; font-weight: 600; }
+.role-card.stylist .arrow { color: var(--navy); }
+.role-card.skinner .arrow { color: var(--red); }
+
+/* FORM */
+.section { padding: 8px 0 20px; display: none; }
+.section.active { display: block; animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.section-title { font-size: 15px; font-weight: 800; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--navy); }
+.step-indicator { font-size: 12px; font-weight: 700; color: var(--gray-500); letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
+.nav-bar { display: flex; gap: 10px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--gray-100); }
+.nav-bar .btn { flex: 1; margin: 0; }
+.form-role-stylist .section-title { color: var(--navy); border-color: var(--navy); }
+.form-role-skinner .section-title { color: var(--red); border-color: var(--red); }
+.q { margin-bottom: 22px; }
+.q-label { font-size: 14.5px; font-weight: 600; color: var(--gray-800); margin-bottom: 10px; display: block; line-height: 1.5; }
+.q-label .req { color: #dc2626; margin-left: 2px; }
+.q-hint { font-size: 12.5px; color: var(--gray-500); font-style: italic; margin-bottom: 8px; font-weight: 400; }
+input[type="text"], input[type="tel"], textarea, select {
+  width: 100%; padding: 10px 12px; border: 1px solid var(--gray-300);
+  border-radius: 8px; font-family: inherit; font-size: 14px; background: var(--white);
+  color: var(--gray-800); transition: border-color 0.15s;
+}
+input[type="text"]:focus, input[type="tel"]:focus, textarea:focus, select:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgba(27,58,107,0.1); }
+textarea { resize: vertical; min-height: 72px; }
+.opt-list { display: flex; flex-direction: column; gap: 8px; }
+.opt-list.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 520px) { .opt-list.grid-2 { grid-template-columns: 1fr; } }
+.opt {
+  display: flex; align-items: flex-start; padding: 9px 12px; border: 1px solid var(--gray-300);
+  border-radius: 8px; cursor: pointer; font-size: 13.5px; transition: all 0.15s; background: var(--white);
+}
+.opt:hover { border-color: var(--navy); background: #fafbfd; }
+.opt input { margin-right: 10px; margin-top: 2px; flex-shrink: 0; }
+.opt.selected { border-color: var(--navy); background: #eef2fa; }
+.form-role-skinner .opt.selected { border-color: var(--red); background: #fdf0f4; }
+.opt-center { justify-content: center; padding: 10px 4px; text-align: center; font-weight: 600; }
+.opt-center input { display: none; }
+.checkbox-note { font-size: 12px; color: var(--gray-500); margin-top: 6px; }
+
+/* MONTH/YEAR row */
+.monthyear-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* "OTHER" inline input under radio */
+.other-input { margin-top: 8px; padding-left: 8px; }
+.other-input input { font-size: 13px; padding: 8px 10px; }
+
+/* WORKPLACE BLOCK */
+.wp-toolbar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+  background: var(--gray-100); border-radius: 8px; margin-bottom: 14px;
+}
+.wp-toolbar label { display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; color: var(--gray-800); }
+.wp-toolbar input[type="checkbox"] { width: 16px; height: 16px; }
+.wp-card {
+  border: 1px solid var(--gray-300); border-radius: 10px; padding: 16px 14px;
+  margin-bottom: 14px; background: #fbfcfe;
+}
+.wp-card .wp-head {
+  font-weight: 700; color: var(--navy); font-size: 14px;
+  margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--gray-300);
+  letter-spacing: 0.3px;
+}
+.form-role-skinner .wp-card .wp-head { color: var(--red); }
+.wp-card .sub-q { margin-bottom: 12px; }
+.wp-card .sub-q:last-child { margin-bottom: 0; }
+.wp-card .sub-q label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-800); margin-bottom: 6px; }
+.wp-card .sub-q .q-hint { margin-bottom: 4px; }
+.wp-brick {
+  background: #fff8e1; border: 1px dashed #e0b84d; border-radius: 8px;
+  padding: 10px 12px; margin-top: 10px;
+}
+.wp-brick-title { font-size: 12.5px; font-weight: 700; color: #8a6d19; margin-bottom: 8px; letter-spacing: 0.3px; }
+.chip-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  display: inline-flex; align-items: center; padding: 6px 12px;
+  border: 1px solid var(--gray-300); border-radius: 999px; background: var(--white);
+  cursor: pointer; font-size: 12.5px; font-weight: 500; transition: all 0.15s;
+}
+.chip:hover { border-color: var(--navy); }
+.chip input { display: none; }
+.chip.selected { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.form-role-skinner .chip.selected { background: var(--red); border-color: var(--red); }
+
+/* BUTTON */
+.btn {
+  width: 100%; padding: 14px; background: var(--navy); color: white;
+  border: none; border-radius: 10px; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.btn:hover:not(:disabled) { background: var(--navy-dark); }
+.btn:disabled { background: var(--gray-300); cursor: not-allowed; }
+.btn-secondary { background: transparent; color: var(--navy); border: 1px solid var(--gray-300); margin-top: 8px; }
+.btn-secondary:hover { background: var(--gray-100); }
+.form-role-skinner .btn { background: var(--red); }
+.form-role-skinner .btn:hover:not(:disabled) { background: var(--red-light); }
+.form-role-skinner .btn-secondary { background: transparent; color: var(--red); }
+
+/* THANKS */
+.thanks { text-align: center; padding: 40px 20px; }
+.thanks-icon { font-size: 48px; margin-bottom: 16px; }
+.thanks h2 { color: var(--green); font-size: 24px; margin-bottom: 10px; }
+.thanks p { color: var(--gray-600); font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
+.thanks p strong { color: var(--gray-800); }
+
+/* UTILS */
+.hidden { display: none !important; }
+.err-msg { color: #dc2626; font-size: 13px; margin-top: 10px; padding: 8px 12px; background: #fef2f2; border-radius: 6px; }
+.footer { text-align: center; font-size: 12px; color: var(--gray-500); margin-top: 30px; }
+.progress { height: 4px; background: var(--gray-100); border-radius: 2px; margin-bottom: 20px; overflow: hidden; position: sticky; top: 0; z-index: 10; }
+.progress-fill { height: 100%; background: var(--navy); width: 0%; transition: width 0.3s; }
+.form-role-skinner .progress-fill { background: var(--red); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">30<span>SHINE</span></div>
+  <div class="tagline">ĐIỂM TỰA CHO VIỆC LỚN</div>
+
+  <!-- ========== LANDING ========== -->
+  <div id="landing" class="card">
+    <h1>Hoàn thiện Hồ sơ Nhân sự &amp; Lộ trình Nghề nghiệp</h1>
+    <p class="intro-text">
+      30Shine đang <strong>hoàn thiện hồ sơ nhân sự</strong> để:
+    </p>
+    <ul class="intro-bullets">
+      <li>Phân công khách &amp; dịch vụ phù hợp thế mạnh</li>
+      <li>Gợi ý lộ trình đào tạo phù hợp kinh nghiệm</li>
+      <li>Cùng anh/chị em xây dựng <strong>BẢN ĐỒ NGHỀ TÓC NAM VIỆT NAM</strong> — nghề mà chưa ai từng vẽ bản đồ đầy đủ</li>
+    </ul>
+    <p class="intro-text" style="margin-top:12px">
+      Anh/chị em — với kinh nghiệm thực chiến — chính là những người <strong>ĐẶT NỀN MÓNG</strong> cho bản đồ đầu tiên này.
+      Chỉ <strong>3–5 phút</strong> điền form, anh/chị em đã góp một trong những <strong>VIÊN GẠCH ĐẦU TIÊN</strong> — và vô cùng vững chắc — vào tấm <strong>BẢN ĐỒ NGÀNH TÓC NAM VIỆT NAM 2026</strong>.
+    </p>
+
+    <h2 style="margin-top:22px">Anh/chị em đang làm vị trí nào?</h2>
+    <div class="role-grid">
+      <div class="role-card stylist" onclick="selectRole('Stylist')">
+        <h3>STYLIST / SMST</h3>
+        <p>~3–5 phút · 13 câu</p>
+        <div class="arrow">Bắt đầu →</div>
+      </div>
+      <div class="role-card skinner" onclick="selectRole('Skinner')">
+        <h3>SKINNER</h3>
+        <p>~3–5 phút · 13 câu</p>
+        <div class="arrow">Bắt đầu →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FORM ========== -->
+  <div id="form-wrap" class="hidden">
+    <div class="progress"><div id="progress-fill" class="progress-fill"></div></div>
+    <div class="card">
+      <h1 id="form-title"></h1>
+      <p class="intro-text" id="form-subtitle"></p>
+      <div class="step-indicator" id="step-indicator"></div>
+      <form id="survey-form" onsubmit="return false"></form>
+      <div id="err-box" class="err-msg hidden"></div>
+      <div class="nav-bar">
+        <button type="button" class="btn btn-secondary" id="prev-btn" onclick="prevStep()">← Quay lại</button>
+        <button type="button" class="btn" id="next-btn" onclick="nextStep()">Tiếp theo →</button>
+        <button type="button" class="btn hidden" id="submit-btn" onclick="submitForm()">Gửi khảo sát</button>
+      </div>
+      <button type="button" class="btn btn-secondary" onclick="backToLanding()" style="margin-top:10px">Đổi vị trí</button>
+    </div>
+  </div>
+
+  <!-- ========== THANK YOU ========== -->
+  <div id="thanks" class="card hidden">
+    <div class="thanks">
+      <div class="thanks-icon">🎉</div>
+      <h2>Cảm ơn anh/chị em!</h2>
+      <p>Phản hồi đã được gửi thành công.</p>
+      <p>Anh/chị em vừa góp một mảnh ghép cho <strong>BẢN ĐỒ NGHỀ TÓC NAM VIỆT NAM</strong>.</p>
+      <p>Đây là bản đồ <strong>ĐẦU TIÊN</strong> của ngành — và anh/chị em, chính là những người <strong>ĐẶT CỘT MỐC ĐẦU TIÊN</strong> cho nó.</p>
+      <p style="margin-top:20px">Hồ sơ cá nhân sẽ được cập nhật trong <strong>7 ngày</strong>. Khi bản đồ tổng hợp xong, 30Shine sẽ gửi lại anh/chị em tham khảo.</p>
+      <p style="margin-top:20px">— 30Shine HR —</p>
+    </div>
+  </div>
+
+  <div class="footer">© 2026 30Shine · Nội bộ · Nghiên cứu bản đồ nghề tóc nam Việt Nam</div>
+</div>
+
+<script>
+// ============================================================
+// !!! CẬP NHẬT URL SAU KHI DEPLOY APPS SCRIPT !!!
+// ============================================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvBhFwfyeZXCL241k3N26u8Z--H5LgvOR788XSvsQ8WQMxixaJIRyojyoUvLdT57el/exec';
+
+// ============================================================
+// CONSTANTS
+// ============================================================
+const SALONS = ["10 TP","11 PKT","168 NVC","186 QT","362 NGT BN","4 LQD BN","145 THT","190 HB","312 LVS","575 AC","708 LTT","730 TL10","8 CVL","927 HG","99 TSN","290 QT TH","304 NT TH","58 NVC NA","595 BT TH","68 LN NA","80 TP TH","103 TN","1146 KVC","1371 PVT","255 NAN","29 HB","36 N1 BD","401/1 NDT","451 PVT","80 PL BD","148 TD","173 TN","202 DC","264 LLQ","346 KT","363 LNQ TN","39 HBT","50BT4 NPC LD","1180 QT","12 LDT","32 NAT","483 TN","76 PVH","113 THD AG","186 DTH","236 DBT","237 NTT","25 TD","341 XVNT","420 HTP","7 DTP LA","109 TQH","116 TK","382 NT","55A NVL","62 LH","65 CD","90 NH"];
+const MONTHS = ["1","2","3","4","5","6","7","8","9","10","11","12"];
+const YEARS = (function(){ const arr=[]; for(let y=2026; y>=2000; y--) arr.push(String(y)); return arr; })();
+
+const INCOME_STYLIST = ["<8tr","8–12tr","12–16tr","16–20tr",">20tr","Bỏ qua"];
+const INCOME_SKINNER = ["<7tr","7–10tr","10–13tr","13–16tr",">16tr","Bỏ qua"];
+const SCHEMES = ["Ăn chia","Lương cứng + ăn chia","Chỉ lương cứng","Khác","Bỏ qua"];
+
+const SERVICES_STYLIST = [
+  "Cắt nam cơ bản",
+  "Cắt nam nghệ thuật/kiểu Hàn/kiểu Âu",
+  "Cắt nữ",
+  "Cắt trẻ em",
+  "Gội massage",
+  "Uốn",
+  "Nhuộm",
+  "Tẩy",
+  "Tạo kiểu (sáp, fume)",
+  "Cạo mặt / chăm sóc da nam",
+  "Ráy tai / thư giãn",
+  "Tư vấn bán sản phẩm"
+];
+const SERVICES_SKINNER = [
+  "Gội massage cơ bản",
+  "Gội massage cao cấp (đầu – vai – gáy)",
+  "Gội đầu dưỡng sinh",
+  "Massage body",
+  "Cạo mặt nam",
+  "Ráy tai / lấy ráy tai chuyên sâu",
+  "Đắp mặt nạ / chăm sóc da nam",
+  "Hỗ trợ uốn / nhuộm / tẩy (trộn thuốc, xả thuốc)",
+  "Sấy – tạo kiểu cơ bản",
+  "Tư vấn bán sản phẩm chăm sóc tóc",
+  "Thư giãn bằng tinh dầu / aroma",
+  "Khác"
+];
+const CUSTOMERS_STYLIST = [
+  "Khách trung niên (35+)",
+  "Khách trẻ (18–34)",
+  "Khách teen (dưới 18)",
+  "Khách trẻ em",
+  "Khách doanh nhân/công sở",
+  "Khách yêu cầu cao về tạo kiểu",
+  "Khách Hàn / nước ngoài"
+];
+const CUSTOMERS_SKINNER = [
+  "Khách trung niên (35+)",
+  "Khách trẻ (18–34)",
+  "Khách teen (dưới 18)",
+  "Khách trẻ em",
+  "Khách doanh nhân/công sở",
+  "Khách yêu cầu cao về chăm sóc/thư giãn",
+  "Khách Hàn / nước ngoài"
+];
+const LANGUAGES = ["Không","Tiếng Anh cơ bản","Tiếng Anh tốt","Tiếng Hàn","Tiếng Trung","Khác"];
+
+const LEARN_OPTS = [
+  "Học viện/trường dạy nghề",
+  "Học từ salon/tiệm (học việc)",
+  "Học từ người thân/bạn bè",
+  "Tự học qua YouTube/mạng",
+  "Khác"
+];
+
+// ============================================================
+// FORM CONFIG BUILDER
+// ============================================================
+function buildConfig(role) {
+  const isSkinner = role === 'Skinner';
+  const pronoun = isSkinner ? 'chị em' : 'anh/em';
+  const incomeOpts = isSkinner ? INCOME_SKINNER : INCOME_STYLIST;
+  const services = isSkinner ? SERVICES_SKINNER : SERVICES_STYLIST;
+  const customers = isSkinner ? CUSTOMERS_SKINNER : CUSTOMERS_STYLIST;
+
+  return {
+    role: role,
+    title: isSkinner ? 'Hồ sơ Skinner 30Shine' : 'Hồ sơ Stylist / SMST 30Shine',
+    time: '~3–5 phút',
+    sections: [
+      { id: 'A', title: 'Phần 1 — Thông tin cơ bản', qs: [
+        { id:'A0', t:'text', l:'Họ và tên', req:1, placeholder:'VD: Nguyễn Văn A' },
+        { id:'A1', t:'text', l:'Mã nhân viên (ID 30Shine)', req:1, placeholder:'VD: 30S12345' },
+        { id:'A2', t:'text', l:'Số điện thoại / Zalo', req:1, inputType:'tel', placeholder:'VD: 0912345678' },
+        { id:'A3', t:'dropdown', l:'Salon 30Shine đang làm', req:1, opts:SALONS },
+        { id:'A4', t:'radio', l:'Vị trí hiện tại', req:1, opts:['Stylist','Skinner','SMST'], cols:2, defaultValue: role === 'Stylist' ? 'Stylist' : role },
+        { id:'A5', t:'monthyear', l:'Vào 30Shine từ (tháng/năm)', req:1 },
+        { id:'A6', t:'text', l:'Khu vực đang sinh sống', placeholder:'VD: Cầu Giấy, Hà Nội' }
+      ]},
+      { id: 'B', title: 'Phần 2 — Hành trình nghề nghiệp', qs: [
+        { id:'B1', t:'radio', l:`Tổng số năm ${pronoun} đã làm ngành tóc/làm đẹp (bao gồm cả tại 30Shine)`, req:1,
+          opts:['Dưới 1 năm','1–3 năm','3–5 năm','5–10 năm','Trên 10 năm'] },
+        { id:'B2', t:'radioWithOther', l:`${pronoun.charAt(0).toUpperCase() + pronoun.slice(1)} học nghề từ đâu?`,
+          opts: LEARN_OPTS, otherKey:'B2_other',
+          otherLabel:'Ghi rõ (tên học viện hoặc nội dung khác)' },
+        { id:'B3', t:'workplaces', l:`Các nơi ${pronoun} đã làm TRƯỚC KHI vào 30Shine`,
+          hint:'Liệt kê GẦN NHẤT → XA NHẤT. Ghi chính xác nơi đã làm ≥ 1 tháng. Tick ô đầu nếu chưa từng làm ở đâu khác.',
+          count:3, incomeOpts: incomeOpts, schemeOpts: SCHEMES }
+      ]},
+      { id: 'C', title: 'Phần 3 — Thế mạnh & Chuyên môn', qs: [
+        { id:'C1', t:'checkbox', l:`Dịch vụ ${pronoun} TỰ TIN NHẤT`, req:1, max:3,
+          hint:'Chọn tối đa 3', opts: services },
+        { id:'C2', t:'checkbox', l:`Tệp khách ${pronoun} phục vụ tốt nhất`, max:3,
+          hint:'Chọn tối đa 3 (tùy chọn)', opts: customers },
+        { id:'C3', t:'checkboxWithOther', l:'Ngoại ngữ',
+          hint:'Tùy chọn, có thể chọn nhiều', opts: LANGUAGES, otherKey:'C3_other',
+          otherLabel:'Ngôn ngữ khác' }
+      ]}
+    ]
+  };
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let currentRole = null;
+let currentConfig = null;
+let currentStep = 0;
+
+// ============================================================
+// RENDER HELPERS
+// ============================================================
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderQuestion(q) {
+  const reqMark = q.req ? '<span class="req">*</span>' : '';
+  const hint = q.hint ? `<div class="q-hint">${escapeHtml(q.hint)}</div>` : '';
+  let input = '';
+
+  if (q.t === 'text') {
+    const type = q.inputType || 'text';
+    const ph = q.placeholder ? ` placeholder="${escapeHtml(q.placeholder)}"` : '';
+    input = `<input type="${type}" name="${q.id}" ${q.req ? 'required' : ''}${ph}>`;
+  }
+  else if (q.t === 'textarea') {
+    input = `<textarea name="${q.id}" rows="3" ${q.req ? 'required' : ''}></textarea>`;
+  }
+  else if (q.t === 'dropdown') {
+    const opts = q.opts.map(o => `<option value="${escapeHtml(o)}">${escapeHtml(o)}</option>`).join('');
+    input = `<select name="${q.id}" ${q.req ? 'required' : ''}><option value="">— Chọn —</option>${opts}</select>`;
+  }
+  else if (q.t === 'radio') {
+    const cols = q.cols === 2 ? ' grid-2' : '';
+    input = `<div class="opt-list${cols}">${q.opts.map(o => `
+      <label class="opt"><input type="radio" name="${q.id}" value="${escapeHtml(o)}" ${q.req ? 'required' : ''} ${q.defaultValue === o ? 'checked' : ''}><span>${escapeHtml(o)}</span></label>
+    `).join('')}</div>`;
+  }
+  else if (q.t === 'radioWithOther') {
+    input = `<div class="opt-list">${q.opts.map(o => `
+      <label class="opt"><input type="radio" name="${q.id}" value="${escapeHtml(o)}" ${q.req ? 'required' : ''}><span>${escapeHtml(o)}</span></label>
+    `).join('')}</div>
+    <div class="other-input">
+      <input type="text" name="${q.otherKey}" placeholder="${escapeHtml(q.otherLabel || 'Ghi rõ...')}">
+    </div>`;
+  }
+  else if (q.t === 'checkbox') {
+    const maxAttr = q.max ? `data-max="${q.max}"` : '';
+    input = `<div class="opt-list" ${maxAttr} data-checkbox-group="${q.id}">${q.opts.map(o => `
+      <label class="opt"><input type="checkbox" name="${q.id}" value="${escapeHtml(o)}" onchange="onCheckboxChange(this)"><span>${escapeHtml(o)}</span></label>
+    `).join('')}</div>`;
+  }
+  else if (q.t === 'checkboxWithOther') {
+    input = `<div class="opt-list" data-checkbox-group="${q.id}">${q.opts.map(o => `
+      <label class="opt"><input type="checkbox" name="${q.id}" value="${escapeHtml(o)}" onchange="onCheckboxChange(this)"><span>${escapeHtml(o)}</span></label>
+    `).join('')}</div>
+    <div class="other-input">
+      <input type="text" name="${q.otherKey}" placeholder="${escapeHtml(q.otherLabel || 'Ghi rõ...')}">
+    </div>`;
+  }
+  else if (q.t === 'monthyear') {
+    const monthOpts = MONTHS.map(m => `<option value="${m}">${m}</option>`).join('');
+    const yearOpts = YEARS.map(y => `<option value="${y}">${y}</option>`).join('');
+    input = `<div class="monthyear-row">
+      <select name="${q.id}_m" ${q.req ? 'required' : ''}><option value="">Tháng</option>${monthOpts}</select>
+      <select name="${q.id}_y" ${q.req ? 'required' : ''}><option value="">Năm</option>${yearOpts}</select>
+    </div>`;
+  }
+  else if (q.t === 'workplaces') {
+    input = renderWorkplaces(q);
+  }
+
+  return `<div class="q" data-qid="${q.id}">
+    <label class="q-label">${escapeHtml(q.l)} ${reqMark}</label>
+    ${hint}
+    ${input}
+  </div>`;
+}
+
+function renderWorkplaces(q) {
+  const monthOpts = MONTHS.map(m => `<option value="${m}">${m}</option>`).join('');
+  const yearOpts = YEARS.map(y => `<option value="${y}">${y}</option>`).join('');
+  const titles = ['Nơi làm GẦN NHẤT', 'Nơi làm THỨ 2 trước đó', 'Nơi làm THỨ 3 trước đó'];
+
+  let html = `<div class="wp-toolbar">
+    <label>
+      <input type="checkbox" name="${q.id}_none" onchange="onWorkplacesNoneChange(this)">
+      Chưa từng làm ở salon/tiệm/spa nào khác ngoài 30Shine
+    </label>
+  </div>
+  <div id="${q.id}_cards">`;
+
+  for (let i = 1; i <= q.count; i++) {
+    const base = `${q.id}_wp${i}`;
+    html += `
+    <div class="wp-card" data-wp-index="${i}">
+      <div class="wp-head">${titles[i-1]}</div>
+      <div class="sub-q">
+        <label>Tên salon/tiệm/spa (chính xác như biển hiệu)</label>
+        <input type="text" name="${base}_ten" placeholder="VD: Salon Anh Tuấn">
+      </div>
+      <div class="sub-q">
+        <label>Khu vực / Quận</label>
+        <input type="text" name="${base}_khu_vuc" placeholder="VD: Đống Đa, Hà Nội">
+      </div>
+      <div class="sub-q">
+        <label>Vị trí khi làm</label>
+        <input type="text" name="${base}_vi_tri" placeholder="VD: Stylist chính / Phụ gội">
+      </div>
+      <div class="monthyear-row">
+        <div class="sub-q" style="margin-bottom:0">
+          <label>Từ (tháng/năm)</label>
+          <div class="monthyear-row">
+            <select name="${base}_tu_m"><option value="">Tháng</option>${monthOpts}</select>
+            <select name="${base}_tu_y"><option value="">Năm</option>${yearOpts}</select>
+          </div>
+        </div>
+        <div class="sub-q" style="margin-bottom:0">
+          <label>Đến (tháng/năm)</label>
+          <div class="monthyear-row">
+            <select name="${base}_den_m"><option value="">Tháng</option>${monthOpts}</select>
+            <select name="${base}_den_y"><option value="">Năm</option>${yearOpts}</select>
+          </div>
+        </div>
+      </div>
+      <div class="wp-brick">
+        <div class="wp-brick-title">🧱 GÓP 1 VIÊN GẠCH CHO BẢN ĐỒ NGHỀ</div>
+        <div class="sub-q">
+          <label>► Thu nhập trung bình khoảng:</label>
+          <div class="chip-list">
+            ${q.incomeOpts.map(o => `
+              <label class="chip"><input type="radio" name="${base}_thu_nhap" value="${escapeHtml(o)}" onchange="onChipChange(this)"><span>${escapeHtml(o)}</span></label>
+            `).join('')}
+          </div>
+        </div>
+        <div class="sub-q">
+          <label>► Cơ chế trả lương:</label>
+          <div class="chip-list">
+            ${q.schemeOpts.map(o => `
+              <label class="chip"><input type="radio" name="${base}_co_che" value="${escapeHtml(o)}" onchange="onChipChange(this)"><span>${escapeHtml(o)}</span></label>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+function renderForm(config) {
+  const html = config.sections.map((s, i) => `
+    <div class="section" data-section-idx="${i}">
+      <div class="section-title">${escapeHtml(s.title)}</div>
+      ${s.qs.map(renderQuestion).join('')}
+    </div>
+  `).join('');
+  document.getElementById('survey-form').innerHTML = html;
+}
+
+// ============================================================
+// INTERACTION
+// ============================================================
+function selectRole(role) {
+  currentRole = role;
+  currentConfig = buildConfig(role);
+
+  document.getElementById('landing').classList.add('hidden');
+  document.getElementById('form-wrap').classList.remove('hidden');
+  document.getElementById('form-wrap').classList.remove('form-role-skinner', 'form-role-stylist');
+  document.getElementById('form-wrap').classList.add('form-role-' + role.toLowerCase());
+
+  document.getElementById('form-title').textContent = currentConfig.title;
+  document.getElementById('form-subtitle').textContent = 'Thời gian: ' + currentConfig.time + '. Cảm ơn anh/chị em đã dành thời gian.';
+
+  renderForm(currentConfig);
+  setupProgressTracking();
+  currentStep = 0;
+  showStep(0);
+  window.scrollTo(0, 0);
+}
+
+function showStep(idx) {
+  const sections = document.querySelectorAll('#survey-form .section');
+  sections.forEach(s => s.classList.remove('active'));
+  if (sections[idx]) sections[idx].classList.add('active');
+
+  const total = currentConfig.sections.length;
+  document.getElementById('step-indicator').textContent = `Bước ${idx + 1} / ${total}`;
+
+  document.getElementById('prev-btn').style.display = idx === 0 ? 'none' : 'block';
+  const isLast = idx === total - 1;
+  document.getElementById('next-btn').classList.toggle('hidden', isLast);
+  document.getElementById('submit-btn').classList.toggle('hidden', !isLast);
+
+  document.getElementById('err-box').classList.add('hidden');
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validateCurrentStep() {
+  const section = currentConfig.sections[currentStep];
+  const errors = [];
+  section.qs.forEach(q => {
+    if (!q.req) return;
+    const val = collectQuestionValue(q);
+    if (isEmptyValue(val)) errors.push(q);
+  });
+  // Extra: check "Dưới 1 năm" bias — nếu chọn "3–5 năm" trở lên thì gợi ý nhưng không hard block
+  return errors;
+}
+
+function isEmptyValue(val) {
+  if (val === '' || val === null || val === undefined) return true;
+  if (Array.isArray(val)) return val.length === 0;
+  if (typeof val === 'object') {
+    // monthyear or workplaces object
+    return Object.keys(val).every(k => isEmptyValue(val[k]));
+  }
+  return false;
+}
+
+function nextStep() {
+  const errors = validateCurrentStep();
+  if (errors.length) {
+    showError(`Còn ${errors.length} câu bắt buộc chưa trả lời. Vui lòng điền đầy đủ trước khi sang phần tiếp.`);
+    const firstEl = document.querySelector(`[data-qid="${errors[0].id}"]`);
+    if (firstEl) firstEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  if (currentStep < currentConfig.sections.length - 1) {
+    currentStep++;
+    showStep(currentStep);
+  }
+}
+
+function prevStep() {
+  if (currentStep > 0) {
+    currentStep--;
+    showStep(currentStep);
+  }
+}
+
+function backToLanding() {
+  if (!confirm('Quay lại sẽ mất dữ liệu đã điền. Anh/chị em chắc chứ?')) return;
+  document.getElementById('form-wrap').classList.add('hidden');
+  document.getElementById('landing').classList.remove('hidden');
+  document.getElementById('survey-form').innerHTML = '';
+  document.getElementById('err-box').classList.add('hidden');
+  window.scrollTo(0, 0);
+}
+
+function onCheckboxChange(cb) {
+  const group = cb.closest('[data-checkbox-group]');
+  const max = parseInt(group.dataset.max || '999');
+  const checked = group.querySelectorAll('input[type="checkbox"]:checked').length;
+  if (checked > max) {
+    cb.checked = false;
+    alert(`Tối đa ${max} lựa chọn cho câu này.`);
+  }
+  updateProgress();
+}
+
+function onChipChange(input) {
+  const chips = input.closest('.chip-list').querySelectorAll('.chip');
+  chips.forEach(c => c.classList.remove('selected'));
+  input.closest('.chip').classList.add('selected');
+  updateProgress();
+}
+
+function onWorkplacesNoneChange(cb) {
+  const qid = cb.name.replace('_none', '');
+  const cards = document.getElementById(qid + '_cards');
+  if (!cards) return;
+  cards.style.display = cb.checked ? 'none' : 'block';
+  if (cb.checked) {
+    // Clear all fields in the hidden cards
+    cards.querySelectorAll('input[type="text"], select').forEach(el => { el.value = ''; });
+    cards.querySelectorAll('input[type="radio"]').forEach(el => { el.checked = false; });
+    cards.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  }
+  updateProgress();
+}
+
+function setupProgressTracking() {
+  document.querySelectorAll('#survey-form input, #survey-form textarea, #survey-form select').forEach(el => {
+    el.addEventListener('change', updateProgress);
+    el.addEventListener('input', updateProgress);
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  if (!currentConfig) return;
+  let total = 0, answered = 0;
+  currentConfig.sections.forEach(s => s.qs.forEach(q => {
+    total += 1;
+    const val = collectQuestionValue(q);
+    if (!isEmptyValue(val)) answered += 1;
+  }));
+  const pct = total > 0 ? Math.round(answered / total * 100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function collectQuestionValue(q) {
+  if (q.t === 'text' || q.t === 'textarea') {
+    const el = document.querySelector(`[name="${q.id}"]`);
+    return el ? el.value.trim() : '';
+  }
+  if (q.t === 'dropdown') {
+    const el = document.querySelector(`[name="${q.id}"]`);
+    return el ? el.value : '';
+  }
+  if (q.t === 'radio') {
+    const sel = document.querySelector(`input[name="${q.id}"]:checked`);
+    return sel ? sel.value : '';
+  }
+  if (q.t === 'radioWithOther') {
+    const sel = document.querySelector(`input[name="${q.id}"]:checked`);
+    const other = document.querySelector(`input[name="${q.otherKey}"]`);
+    const otherVal = other ? other.value.trim() : '';
+    return { choice: sel ? sel.value : '', other: otherVal };
+  }
+  if (q.t === 'checkbox') {
+    return Array.from(document.querySelectorAll(`input[name="${q.id}"]:checked`)).map(e => e.value);
+  }
+  if (q.t === 'checkboxWithOther') {
+    const items = Array.from(document.querySelectorAll(`input[name="${q.id}"]:checked`)).map(e => e.value);
+    const other = document.querySelector(`input[name="${q.otherKey}"]`);
+    return { items: items, other: other ? other.value.trim() : '' };
+  }
+  if (q.t === 'monthyear') {
+    const m = document.querySelector(`[name="${q.id}_m"]`);
+    const y = document.querySelector(`[name="${q.id}_y"]`);
+    return {
+      month: m ? m.value : '',
+      year: y ? y.value : ''
+    };
+  }
+  if (q.t === 'workplaces') {
+    const none = document.querySelector(`input[name="${q.id}_none"]`);
+    if (none && none.checked) return { none: true, list: [] };
+    const list = [];
+    for (let i = 1; i <= q.count; i++) {
+      const base = `${q.id}_wp${i}`;
+      const wp = {
+        ten: (document.querySelector(`[name="${base}_ten"]`) || {}).value || '',
+        khu_vuc: (document.querySelector(`[name="${base}_khu_vuc"]`) || {}).value || '',
+        vi_tri: (document.querySelector(`[name="${base}_vi_tri"]`) || {}).value || '',
+        tu: {
+          month: (document.querySelector(`[name="${base}_tu_m"]`) || {}).value || '',
+          year:  (document.querySelector(`[name="${base}_tu_y"]`) || {}).value || ''
+        },
+        den: {
+          month: (document.querySelector(`[name="${base}_den_m"]`) || {}).value || '',
+          year:  (document.querySelector(`[name="${base}_den_y"]`) || {}).value || ''
+        },
+        thu_nhap: (document.querySelector(`input[name="${base}_thu_nhap"]:checked`) || {}).value || '',
+        co_che:   (document.querySelector(`input[name="${base}_co_che"]:checked`) || {}).value || ''
+      };
+      // Trim strings
+      Object.keys(wp).forEach(k => { if (typeof wp[k] === 'string') wp[k] = wp[k].trim(); });
+      list.push(wp);
+    }
+    return { none: false, list: list };
+  }
+  return '';
+}
+
+function collectFormData() {
+  const data = {
+    role: currentRole,
+    timestamp: new Date().toISOString()
+  };
+  currentConfig.sections.forEach(s => s.qs.forEach(q => {
+    data[q.id] = collectQuestionValue(q);
+  }));
+  return data;
+}
+
+function validateForm() {
+  const errors = [];
+  currentConfig.sections.forEach(s => s.qs.forEach(q => {
+    if (!q.req) return;
+    const val = collectQuestionValue(q);
+    if (isEmptyValue(val)) errors.push(`${q.id}: ${q.l}`);
+  }));
+  return errors;
+}
+
+function showError(msg) {
+  const box = document.getElementById('err-box');
+  box.textContent = msg;
+  box.classList.remove('hidden');
+  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function submitForm() {
+  const errors = validateForm();
+  if (errors.length) {
+    showError(`Còn ${errors.length} câu bắt buộc chưa trả lời: ${errors.slice(0, 3).map(e => e.split(':')[0]).join(', ')}${errors.length > 3 ? '...' : ''}`);
+    const firstId = errors[0].split(':')[0];
+    const el = document.querySelector(`[data-qid="${firstId}"]`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  if (!GOOGLE_SCRIPT_URL) {
+    showError('GOOGLE_SCRIPT_URL chưa được cấu hình. Liên hệ HR để cập nhật.');
+    return;
+  }
+
+  const data = collectFormData();
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Đang gửi...';
+
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(data)
+  })
+    .then(() => {
+      document.getElementById('form-wrap').classList.add('hidden');
+      document.getElementById('thanks').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    })
+    .catch(err => {
+      btn.disabled = false;
+      btn.textContent = 'Gửi khảo sát';
+      showError('Gửi thất bại: ' + err.message + '. Thử lại sau.');
+    });
+}
+
+// Highlight selected opt
+document.addEventListener('change', (e) => {
+  if (e.target.type === 'radio') {
+    const name = e.target.name;
+    document.querySelectorAll(`input[name="${name}"]`).forEach(el => {
+      el.closest('.opt')?.classList.toggle('selected', el.checked);
+    });
+  } else if (e.target.type === 'checkbox') {
+    e.target.closest('.opt')?.classList.toggle('selected', e.target.checked);
+  }
+});
+</script>
+</body>
+</html>
