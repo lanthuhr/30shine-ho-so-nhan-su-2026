@@ -76,19 +76,22 @@ https://lanthuhr.github.io/30shine-ho-so-nhan-su-2026/
 ### Phần 1 — Thông tin cơ bản (7 câu)
 Họ tên · Mã NV · SĐT/Zalo · Salon · Vị trí · Vào 30Shine từ · Khu vực sinh sống
 
-### Phần 2 — Hành trình nghề (3 câu)
+### Phần 2 — Hành trình nghề (2 câu)
 - B1: Tổng số năm làm ngành (radio)
 - B2: Học nghề từ đâu (radio + other)
-- B3: 3 nơi làm trước 30Shine (repeat block với thu nhập range + cơ chế — "viên gạch")
 
-### Phần 3 — Thế mạnh & Chuyên môn (3 câu)
+### Phần 3 — Các nơi đã làm TRƯỚC 30Shine (repeat block × 3)
+Mỗi nơi làm thu 10 field: tên, địa chỉ chi tiết, còn hoạt động không, vị trí, từ/đến,
+thu nhập range + cơ chế trả lương ("viên gạch").
+
+### Phần 4 — Thế mạnh & Chuyên môn (3 câu)
 - C1: Dịch vụ tự tin nhất (checkbox, max 3) — list khác nhau giữa Stylist và Skinner
 - C2: Tệp khách phục vụ tốt nhất (checkbox, max 3)
 - C3: Ngoại ngữ (checkbox + other)
 
 ## Data schema (trong Google Sheet)
 
-Cả 2 tab `Stylist` và `Skinner` dùng cùng header (40 cột) để dễ phân tích đồng nhất:
+Cả 2 tab `Stylist` và `Skinner` dùng cùng header (49 cột) để dễ phân tích đồng nhất:
 
 - `submission_id`, `timestamp`, `role`
 - `A0..A6` — Thông tin cơ bản (8 cột, A5 tách `thang`/`nam`)

@@ -187,13 +187,12 @@ textarea { resize: vertical; min-height: 72px; }
       30Shine đang <strong>hoàn thiện hồ sơ nhân sự</strong> để:
     </p>
     <ul class="intro-bullets">
-      <li>Phân công khách &amp; dịch vụ phù hợp thế mạnh</li>
-      <li>Gợi ý lộ trình đào tạo phù hợp kinh nghiệm</li>
+      <li>Hiểu thế mạnh của anh/chị em để thiết kế các chính sách, nhóm dịch vụ, khách... phù hợp với thế mạnh/mong muốn của anh/chị em trong công việc</li>
+      <li>Gợi ý/đề xuất lộ trình thăng tiến/nâng cao tay nghề nhanh, hiệu quả cho từng nhóm/cá nhân</li>
       <li>Cùng anh/chị em xây dựng <strong>BẢN ĐỒ NGHỀ TÓC NAM VIỆT NAM</strong> — nghề mà chưa ai từng vẽ bản đồ đầy đủ</li>
     </ul>
     <p class="intro-text" style="margin-top:12px">
-      Anh/chị em — với kinh nghiệm thực chiến — chính là những người <strong>ĐẶT NỀN MÓNG</strong> cho bản đồ đầu tiên này.
-      Chỉ <strong>3–5 phút</strong> điền form, anh/chị em đã góp một trong những <strong>VIÊN GẠCH ĐẦU TIÊN</strong> — và vô cùng vững chắc — vào tấm <strong>BẢN ĐỒ NGÀNH TÓC NAM VIỆT NAM 2026</strong>.
+      Anh/chị em — với kinh nghiệm thực chiến — chính là những người <strong>ĐẶT NỀN MÓNG</strong> vô cùng vững chắc cho tấm <strong>BẢN ĐỒ NGÀNH TÓC NAM VIỆT NAM</strong> đầu tiên mà chưa ai làm được.
     </p>
 
     <h2 style="margin-top:22px">Anh/chị em đang làm vị trí nào?</h2>
@@ -249,7 +248,7 @@ textarea { resize: vertical; min-height: 72px; }
 // ============================================================
 // !!! CẬP NHẬT URL SAU KHI DEPLOY APPS SCRIPT !!!
 // ============================================================
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvBhFwfyeZXCL241k3N26u8Z--H5LgvOR788XSvsQ8WQMxixaJIRyojyoUvLdT57el/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyuG7LmZ59-dC0_GQ-hqHIctD20cXsz-HQQg26V69jwtbgz1EzdjFqDqBp1HORg4bvO/exec';
 
 // ============================================================
 // CONSTANTS
@@ -347,12 +346,14 @@ function buildConfig(role) {
           opts:['Dưới 1 năm','1–3 năm','3–5 năm','5–10 năm','Trên 10 năm'] },
         { id:'B2', t:'radioWithOther', l:`${pronoun.charAt(0).toUpperCase() + pronoun.slice(1)} học nghề từ đâu?`,
           opts: LEARN_OPTS, otherKey:'B2_other',
-          otherLabel:'Ghi rõ (tên học viện hoặc nội dung khác)' },
+          otherLabel:'Ghi rõ (tên học viện hoặc nội dung khác)' }
+      ]},
+      { id: 'W', title: 'Phần 3 — Các nơi đã làm TRƯỚC 30Shine', qs: [
         { id:'B3', t:'workplaces', l:`Các nơi ${pronoun} đã làm TRƯỚC KHI vào 30Shine`,
           hint:'Liệt kê GẦN NHẤT → XA NHẤT. Ghi chính xác nơi đã làm ≥ 1 tháng. Tick ô đầu nếu chưa từng làm ở đâu khác.',
           count:3, incomeOpts: incomeOpts, schemeOpts: SCHEMES }
       ]},
-      { id: 'C', title: 'Phần 3 — Thế mạnh & Chuyên môn', qs: [
+      { id: 'C', title: 'Phần 4 — Thế mạnh & Chuyên môn', qs: [
         { id:'C1', t:'checkbox', l:`Dịch vụ ${pronoun} TỰ TIN NHẤT`, req:1, max:3,
           hint:'Chọn tối đa 3', opts: services },
         { id:'C2', t:'checkbox', l:`Tệp khách ${pronoun} phục vụ tốt nhất`, max:3,
@@ -466,8 +467,17 @@ function renderWorkplaces(q) {
         <input type="text" name="${base}_ten" placeholder="VD: Salon Anh Tuấn">
       </div>
       <div class="sub-q">
-        <label>Khu vực / Quận</label>
-        <input type="text" name="${base}_khu_vuc" placeholder="VD: Đống Đa, Hà Nội">
+        <label>Địa chỉ Salon</label>
+        <div class="q-hint">Ghi rõ địa chỉ, đường, xã/phường, tỉnh/TP — càng chi tiết càng tốt</div>
+        <input type="text" name="${base}_khu_vuc" placeholder="VD: 123 Thái Hà, P. Trung Liệt, Q. Đống Đa, Hà Nội">
+      </div>
+      <div class="sub-q">
+        <label>Hiện Salon này còn hoạt động không?</label>
+        <div class="opt-list grid-2">
+          <label class="opt"><input type="radio" name="${base}_con_hoat_dong" value="Còn hoạt động"><span>Còn hoạt động</span></label>
+          <label class="opt"><input type="radio" name="${base}_con_hoat_dong" value="Đã đóng cửa"><span>Đã đóng cửa</span></label>
+          <label class="opt"><input type="radio" name="${base}_con_hoat_dong" value="Không rõ"><span>Không rõ</span></label>
+        </div>
       </div>
       <div class="sub-q">
         <label>Vị trí khi làm</label>
@@ -713,6 +723,7 @@ function collectQuestionValue(q) {
       const wp = {
         ten: (document.querySelector(`[name="${base}_ten"]`) || {}).value || '',
         khu_vuc: (document.querySelector(`[name="${base}_khu_vuc"]`) || {}).value || '',
+        con_hoat_dong: (document.querySelector(`input[name="${base}_con_hoat_dong"]:checked`) || {}).value || '',
         vi_tri: (document.querySelector(`[name="${base}_vi_tri"]`) || {}).value || '',
         tu: {
           month: (document.querySelector(`[name="${base}_tu_m"]`) || {}).value || '',

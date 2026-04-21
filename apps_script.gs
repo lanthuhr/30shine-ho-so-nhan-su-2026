@@ -42,14 +42,14 @@ const HEADERS = [
   'B1_tong_nam_kinh_nghiem',
   'B2_hoc_nghe', 'B2_hoc_nghe_other',
   'B3_wp_chua_tung_lam_o_dau_khac',
-  // B3 — 3 nơi làm, mỗi nơi 8 field (24 cột)
-  'B3_wp1_ten', 'B3_wp1_khu_vuc', 'B3_wp1_vi_tri',
+  // B3 — 3 nơi làm, mỗi nơi 10 field (30 cột)
+  'B3_wp1_ten', 'B3_wp1_dia_chi', 'B3_wp1_con_hoat_dong', 'B3_wp1_vi_tri',
   'B3_wp1_tu_thang', 'B3_wp1_tu_nam', 'B3_wp1_den_thang', 'B3_wp1_den_nam',
   'B3_wp1_thu_nhap', 'B3_wp1_co_che',
-  'B3_wp2_ten', 'B3_wp2_khu_vuc', 'B3_wp2_vi_tri',
+  'B3_wp2_ten', 'B3_wp2_dia_chi', 'B3_wp2_con_hoat_dong', 'B3_wp2_vi_tri',
   'B3_wp2_tu_thang', 'B3_wp2_tu_nam', 'B3_wp2_den_thang', 'B3_wp2_den_nam',
   'B3_wp2_thu_nhap', 'B3_wp2_co_che',
-  'B3_wp3_ten', 'B3_wp3_khu_vuc', 'B3_wp3_vi_tri',
+  'B3_wp3_ten', 'B3_wp3_dia_chi', 'B3_wp3_con_hoat_dong', 'B3_wp3_vi_tri',
   'B3_wp3_tu_thang', 'B3_wp3_tu_nam', 'B3_wp3_den_thang', 'B3_wp3_den_nam',
   'B3_wp3_thu_nhap', 'B3_wp3_co_che',
   // C — Thế mạnh
@@ -103,15 +103,34 @@ function doPost(e) {
 // HELPERS
 // ============================================================
 function initSheetHeader(sheet, role) {
-  sheet.appendRow(HEADERS);
+  // Đảm bảo sheet có đủ cột trước khi setValues — sheet mới default 26 cột,
+  // sheet cũ có thể chỉ 46 cột từ lần setup trước. Nếu setValues vượt dimension
+  // sẽ throw error và row 1 sẽ không có header.
+  const need = HEADERS.length;
+  const maxCol = sheet.getMaxColumns();
+  if (maxCol < need) {
+    sheet.insertColumnsAfter(maxCol, need - maxCol);
+  }
+  // Ghi header vào row 1
+  sheet.getRange(1, 1, 1, need).setValues([HEADERS]);
   const bg = (role === 'Skinner') ? '#8B1538' : '#1B3A6B';
-  sheet.getRange(1, 1, 1, HEADERS.length)
+  sheet.getRange(1, 1, 1, need)
     .setFontWeight('bold')
     .setBackground(bg)
     .setFontColor('#ffffff');
   sheet.setFrozenRows(1);
   sheet.setColumnWidth(1, 220); // submission_id
   sheet.setColumnWidth(2, 160); // timestamp
+}
+
+function headersNeedUpdate(sheet) {
+  if (sheet.getLastRow() === 0) return true;
+  const current = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1)).getValues()[0];
+  if (current.length !== HEADERS.length) return true;
+  for (let i = 0; i < HEADERS.length; i++) {
+    if (current[i] !== HEADERS[i]) return true;
+  }
+  return false;
 }
 
 function buildRow(data, submissionId, timestamp, role) {
@@ -142,14 +161,14 @@ function buildRow(data, submissionId, timestamp, role) {
     s(B2.choice), s(B2.other),
     // B3 none flag
     B3.none ? 'Chưa từng làm ở đâu khác' : '',
-    // B3 workplaces × 3
-    s(wp(0).ten), s(wp(0).khu_vuc), s(wp(0).vi_tri),
+    // B3 workplaces × 3 (ten, dia_chi, con_hoat_dong, vi_tri, tu, den, thu_nhap, co_che)
+    s(wp(0).ten), s(wp(0).khu_vuc), s(wp(0).con_hoat_dong), s(wp(0).vi_tri),
     s(wpTu(0).month), s(wpTu(0).year), s(wpDen(0).month), s(wpDen(0).year),
     s(wp(0).thu_nhap), s(wp(0).co_che),
-    s(wp(1).ten), s(wp(1).khu_vuc), s(wp(1).vi_tri),
+    s(wp(1).ten), s(wp(1).khu_vuc), s(wp(1).con_hoat_dong), s(wp(1).vi_tri),
     s(wpTu(1).month), s(wpTu(1).year), s(wpDen(1).month), s(wpDen(1).year),
     s(wp(1).thu_nhap), s(wp(1).co_che),
-    s(wp(2).ten), s(wp(2).khu_vuc), s(wp(2).vi_tri),
+    s(wp(2).ten), s(wp(2).khu_vuc), s(wp(2).con_hoat_dong), s(wp(2).vi_tri),
     s(wpTu(2).month), s(wpTu(2).year), s(wpDen(2).month), s(wpDen(2).year),
     s(wp(2).thu_nhap), s(wp(2).co_che),
     // C
@@ -168,12 +187,12 @@ function setupSheets() {
   // Tab Stylist
   let stylist = ss.getSheetByName('Stylist');
   if (!stylist) stylist = ss.insertSheet('Stylist');
-  if (stylist.getLastRow() === 0) initSheetHeader(stylist, 'Stylist');
+  if (headersNeedUpdate(stylist)) initSheetHeader(stylist, 'Stylist');
 
   // Tab Skinner
   let skinner = ss.getSheetByName('Skinner');
   if (!skinner) skinner = ss.insertSheet('Skinner');
-  if (skinner.getLastRow() === 0) initSheetHeader(skinner, 'Skinner');
+  if (headersNeedUpdate(skinner)) initSheetHeader(skinner, 'Skinner');
 
   // Xóa sheet mặc định nếu còn
   const defaultSheet = ss.getSheetByName('Sheet1') || ss.getSheetByName('Trang tính1');
@@ -204,13 +223,15 @@ function testStylist() {
         B3: {
           none: false,
           list: [
-            { ten: 'Salon Anh Tuấn', khu_vuc: 'Đống Đa, Hà Nội', vi_tri: 'Stylist chính',
+            { ten: 'Salon Anh Tuấn', khu_vuc: '123 Thái Hà, P. Trung Liệt, Q. Đống Đa, Hà Nội',
+              con_hoat_dong: 'Còn hoạt động', vi_tri: 'Stylist chính',
               tu: { month:'3', year:'2020' }, den: { month:'5', year:'2022' },
               thu_nhap: '16–20tr', co_che: 'Ăn chia' },
-            { ten: 'Salon Kiệt', khu_vuc: 'Hà Đông, Hà Nội', vi_tri: 'Học việc',
+            { ten: 'Salon Kiệt', khu_vuc: '45 Quang Trung, P. Yết Kiêu, Q. Hà Đông, Hà Nội',
+              con_hoat_dong: 'Đã đóng cửa', vi_tri: 'Học việc',
               tu: { month:'1', year:'2019' }, den: { month:'2', year:'2020' },
               thu_nhap: '<8tr', co_che: 'Chỉ lương cứng' },
-            { ten:'', khu_vuc:'', vi_tri:'', tu:{}, den:{}, thu_nhap:'', co_che:'' }
+            { ten:'', khu_vuc:'', con_hoat_dong:'', vi_tri:'', tu:{}, den:{}, thu_nhap:'', co_che:'' }
           ]
         },
         C1: ['Cắt nam nghệ thuật/kiểu Hàn/kiểu Âu','Nhuộm','Tạo kiểu (sáp, fume)'],
@@ -237,11 +258,12 @@ function testSkinner() {
         B3: {
           none: false,
           list: [
-            { ten: 'Spa Hoa Mai', khu_vuc: 'Thanh Xuân, Hà Nội', vi_tri: 'Gội cao cấp',
+            { ten: 'Spa Hoa Mai', khu_vuc: '88 Nguyễn Trãi, P. Thượng Đình, Q. Thanh Xuân, Hà Nội',
+              con_hoat_dong: 'Không rõ', vi_tri: 'Gội cao cấp',
               tu: { month:'6', year:'2022' }, den: { month:'9', year:'2023' },
               thu_nhap: '7–10tr', co_che: 'Lương cứng + ăn chia' },
-            { ten:'', khu_vuc:'', vi_tri:'', tu:{}, den:{}, thu_nhap:'', co_che:'' },
-            { ten:'', khu_vuc:'', vi_tri:'', tu:{}, den:{}, thu_nhap:'', co_che:'' }
+            { ten:'', khu_vuc:'', con_hoat_dong:'', vi_tri:'', tu:{}, den:{}, thu_nhap:'', co_che:'' },
+            { ten:'', khu_vuc:'', con_hoat_dong:'', vi_tri:'', tu:{}, den:{}, thu_nhap:'', co_che:'' }
           ]
         },
         C1: ['Gội massage cao cấp (đầu – vai – gáy)','Đắp mặt nạ / chăm sóc da nam','Ráy tai / lấy ráy tai chuyên sâu'],
